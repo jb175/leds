@@ -27,9 +27,10 @@ The project is divided into several sections, each detailed in a separate docume
 ## Project Roadmap
 
 Next steps include:
-- Adding new animations and testing in real environments (large spaces).
-- Optimizing control via the web and synchronizing multiple units.
-- Improving 3D printed enclosures for robustness and modularity.
+- Testing eletronics shematics to have something that fully works
+- Developping C code for ESP32 to run animations
+- Creating a website to control the circuit
+- Adding micro to the cirsuit to have a better control over the LEDS (will be random or controlled with the site until now)
 
 ---
 
