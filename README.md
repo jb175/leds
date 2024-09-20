@@ -42,7 +42,5 @@ Next steps include:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-### Additional Notes
-This license applies to both the software and accompanying hardware designs and documentation. Feel free to use, modify, and distribute the materials as long as proper attribution is given.
+- **Software**: MIT License - see the [LICENSE](LICENSE) file for details.
+- **Documentation and Designs**: Licensed under [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
