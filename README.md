@@ -1,44 +1,45 @@
-# Boîtier d'Alimentation pour LED WS2812B
+# Projet d'éclairage LED synchronisé avec la musique
 
-Ce projet a pour objectif de créer un boîtier d'alimentation et de contrôle pour des bandes LED WS2812B. Il inclut une partie électronique, un code pour ESP32 et une interface de contrôle (web ou mobile).
+Ce projet vise à créer un système d'éclairage LED, capable de s'illuminer de manière synchronisée avec la musique et contrôlable via un boîtier principal. L'objectif est d'éclairer de grandes pièces, comme une ancienne grange, avec des animations personnalisées. Le projet intègre des aspects de développement électronique, logiciel (ESP32 et contrôle via une application mobile/web), et d'impression 3D pour la structure du boîtier.
 
-## Table des matières
+## Fonctionnalités principales
 
-1. [Introduction](#introduction)
-2. [Schémas électroniques](#schémas-électroniques)
-3. [Code pour l'ESP32](#code-pour-lesp32)
-4. [Contrôle via site web ou app](#contrôle-via-site-web-ou-app)
-5. [Installation et tests](#installation-et-tests)
-6. [Contributions](#contributions)
+- **Contrôle des animations lumineuses** : Synchronisation avec la musique ou animations programmées.
+- **Système modulaire** : Extensible pour plusieurs boîtiers en réseau.
+- **Contrôle via une interface web/mobile** : Possibilité d’ajuster les animations à distance.
+- **Impression 3D** : Enveloppe personnalisée pour les boîtiers de LED.
+
+## Structure du projet
+
+Le projet est divisé en plusieurs parties, chacune détaillée dans un document séparé :
+
+1. [Schéma électronique et liste des composants](docs/electronics.md)
+2. [Développement du code pour l'ESP32 (animations LED)](docs/esp32_dev.md)
+3. [Interface de contrôle web et mobile](docs/web_control.md)
+4. [Boîtier imprimé en 3D pour les LEDs](docs/3d_print.md)
+
+## Démonstration
+
+*(Des images ou vidéos seront ajoutées ultérieurement.)*
 
 ---
 
-## Introduction
+## Avenir du projet
 
-Le projet permet de contrôler des bandes LED WS2812B avec différentes animations lumineuses basées sur la musique. L'objectif est également de permettre le contrôle via une interface web ou mobile.
+Les prochaines étapes incluent :
+- L’ajout de nouvelles animations et tests en environnement réel (grande pièce).
+- Optimisation du contrôle via le web et la synchronisation de plusieurs boîtiers.
+- Amélioration des boîtiers imprimés en 3D pour plus de robustesse et de modularité.
 
-## Schémas électroniques
+---
 
-Les schémas électroniques du circuit sont disponibles dans le dossier [hardware](./hardware). Voici un aperçu du schéma principal :
+## Contributeurs
 
-![Schéma électronique](./images/schema_electronique_test_v1.png)
+- **Ton nom**
+- **ChatGPT (assisté par OpenAI)**
 
-## Code pour l'ESP32
+---
 
-Le code source pour l'ESP32 est disponible dans le dossier [code](./code). Vous y trouverez également des instructions pour installer les bibliothèques nécessaires et flasher l'ESP32.
+## License
 
-## Contrôle via site web ou app
-
-La documentation pour la création de l'interface de contrôle (site web ou application mobile) est disponible dans le dossier [docs/web_app](./docs/web_app).
-
-## Installation et tests
-
-Instructions détaillées pour assembler le matériel et tester le projet avec votre bande LED.
-
-1. Branchez les composants selon le schéma électronique.
-2. Flash le code sur l'ESP32...
-3. Test des animations.
-
-## Contributions
-
-Les contributions sont les bienvenues ! Veuillez consulter la section [Contributions](./docs/contributions.md) pour plus de détails.
+[Nom de la License] - Pour plus de détails, consultez le fichier LICENSE.

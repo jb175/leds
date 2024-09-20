@@ -3,20 +3,15 @@
 Ce document présente la version test du schéma électronique du boîtier d'alimentation LED, à ajuster au fur et à mesure du développement. Nous utilisons un microcontrôleur ESP32 pour contrôler les LEDs WS2812B, ainsi qu'un système d'alimentation sécurisé.
 
 ## Composants requis :
-1. **Alimentation 5V 4-5A**
-   - Fournit l'énergie nécessaire aux LEDs et à l'ESP32.
-2. **ESP32**
-   - Microcontrôleur pour contrôler les animations LED et la communication sans fil.
-3. **Convertisseur de niveau logique 5V vers 3.3V**
-   - Utilisé pour la communication entre l'ESP32 (3.3V) et les LEDs (5V).
-4. **Bande LED WS2812B (1 mètre, 60 LEDs)**
-5. **Condensateur 1000 µF, 6.3V ou 10V**
-   - Stabilisation de la tension.
-6. **Fusible rapide 5A**
-   - Protection contre les surcharges.
-7. **Diode Schottky (1N5819)** (optionnel)
-   - Protection contre une inversion de polarité.
-8. **Connecteur DC Barrel Jack femelle (5.5 mm x 2.1 mm)**
+- **Alimentation5V 4-5A** : Fournit l'énergie nécessaire aux LEDs et à l'ESP32.
+- **ESP32** : Microcontrôleur pour gérer les animations et le contrôle des LEDs.
+- **Bande LED WS2812B** : 60 LEDs par mètre, adressables individuellement.
+- **Convertisseur de niveau logique** : Pour convertir le signal 3.3V (sortie ESP32) en 5V pour les LEDs.
+- **Condensateur** : 1000 µF pour stabiliser la tension.
+- **Résistance de 330Ω** : Pour la broche **Data In** des LEDs.
+- **Fusible** : 5A pour protéger le circuit en cas de surintensité.
+- **Diode Schottky (1N5819)** : Protection contre l'inversion de polarité.
+- **Connecteur DC Barrel Jack femelle** :  (5.5 mm x 2.1 mm) Fais le lien entre l'alimentation et le circuit
 
 ## Schéma électronique (Version Test) :
 
