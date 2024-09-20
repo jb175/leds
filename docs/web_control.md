@@ -1,3 +1,3 @@
-# Interface de contrôle web et mobile
+# Web and Mobile Control Interface
 
-L'interface permet de contrôler les LEDs via un site web qui peut être installé en tant qu'application mobile. L'interface permet de choisir des animations, d'ajuster les couleurs, et de synchroniser les LEDs avec la musique.
+The interface allows controlling the LEDs through a website that can be installed as a mobile app. The interface lets users select animations, adjust colors, and synchronize the LEDs with music.

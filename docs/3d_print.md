@@ -1,3 +1,3 @@
-# Boîtier imprimé en 3D pour les LEDs
+# 3D Printed LED Enclosure
 
-Cette section présente les fichiers d’impression 3D pour le boîtier des LEDs et de l'ESP32. Le boîtier est conçu pour protéger les composants tout en permettant une bonne dissipation de la chaleur et un montage facile.
+This section provides the 3D printing files for the LED and ESP32 enclosure. The enclosure is designed to protect the components while allowing proper heat dissipation and easy mounting.

@@ -1,3 +1,3 @@
-# Développement du code pour l'ESP32
+# ESP32 Development
 
-Le développement de l'ESP32 gère les animations LED ainsi que la communication avec l'interface de contrôle (web/mobile). Le microcontrôleur envoie les commandes à la bande LED et gère la synchronisation avec la musique.
+The ESP32 development manages the LED animations and communication with the control interface (web/mobile). The microcontroller sends commands to the LED strip and synchronizes with the music.
