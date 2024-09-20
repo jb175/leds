@@ -21,7 +21,7 @@ Le projet permet de contrôler des bandes LED WS2812B avec différentes animatio
 
 Les schémas électroniques du circuit sont disponibles dans le dossier [hardware](./hardware). Voici un aperçu du schéma principal :
 
-![Schéma électronique](./images/schema_electronique.png)
+![Schéma électronique](./images/schema_electronique_test_v1.png)
 
 ## Code pour l'ESP32
 
