@@ -18,7 +18,7 @@ This document outlines the test version of the electronic schematic for the LED 
 
 Here is the **test version** of the electronic schematic for this project:
 
-![Electronic Schematic](../images/electronic_schematic_test_v1.png)
+![Electronic Schematic](../images/TestCircuit.png)
 
 ## Schematic Explanation:
 
