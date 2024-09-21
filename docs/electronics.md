@@ -13,6 +13,7 @@ This document outlines the test version of the electronic schematic for the LED 
 - **Schottky Diode (1N5819)**: Protection against reverse polarity.
 - **Female DC Barrel Jack Connector (5.5 mm x 2.1 mm)**: Connects the power supply to the circuit.
 - **KY-038/KY-037 Sound Sensor**: Captures audio signals to sync LED animations with music. (KY-038 is smaller and KY-037 better for detecting distant sound)
+- **1KΩ and 2KΩ Resistor**: to convert analog **Data out** pin of the sound sensor from up to 5V to up to 3.3V.
 
 ## Electronic Schematic (Test Version):
 
