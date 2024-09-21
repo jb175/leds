@@ -12,7 +12,8 @@ This document outlines the test version of the electronic schematic for the LED 
 - **5A Fuse**: To protect the circuit in case of overcurrent.
 - **Schottky Diode (1N5819)**: Protection against reverse polarity.
 - **Female DC Barrel Jack Connector (5.5 mm x 2.1 mm)**: Connects the power supply to the circuit.
-- **KY-038/KY-037 Sound Sensor**: Captures audio signals to sync LED animations with music.
+- **KY-038/KY-037 Sound Sensor**: Captures audio signals to sync LED animations with music. (KY-038 is smaller and KY-037 better for detecting distant sound)
+- **1KΩ and 2KΩ Resistor**: to convert analog **Data out** pin of the sound sensor from up to 5V to up to 3.3V.
 
 ## Electronic Schematic (Test Version):
 
@@ -46,6 +47,7 @@ Here is the **test version** of the electronic schematic for this project:
  
 - **KY-038 / KY-037 Sound Sensor**:
    - The KY-038 (or KY-037) sound sensor is used to detect ambient sound levels, which will control the LED animations. The sensor has an analog output (A0) and a digital output (D0). For our purpose, we will use the analog output to detect continuous sound levels.
+   - The analogic outup is between 0-5V so we convert it between 0-3.3V using a votage divider (resistor 1k-2K or 10K-20K)
 
 ---
 
