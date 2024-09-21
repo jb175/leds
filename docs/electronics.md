@@ -46,6 +46,7 @@ Here is the **test version** of the electronic schematic for this project:
  
 - **KY-038 / KY-037 Sound Sensor**:
    - The KY-038 (or KY-037) sound sensor is used to detect ambient sound levels, which will control the LED animations. The sensor has an analog output (A0) and a digital output (D0). For our purpose, we will use the analog output to detect continuous sound levels.
+   - The analogic outup is between 0-5V so we convert it between 0-3.3V using a votage divider (resistor 1k-2K or 10K-20K)
 
 ---
 
