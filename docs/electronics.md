@@ -11,7 +11,8 @@ This document outlines the test version of the electronic schematic for the LED 
 - **330Ω Resistor**: For the **Data In** pin of the LEDs.
 - **5A Fuse**: To protect the circuit in case of overcurrent.
 - **Schottky Diode (1N5819)**: Protection against reverse polarity.
-- **Female DC Barrel Jack Connector** (5.5 mm x 2.1 mm): Connects the power supply to the circuit.
+- **Female DC Barrel Jack Connector (5.5 mm x 2.1 mm)**: Connects the power supply to the circuit.
+- **KY-038/KY-037 Sound Sensor**: Captures audio signals to sync LED animations with music.
 
 ## Electronic Schematic (Test Version):
 
@@ -32,7 +33,7 @@ Here is the **test version** of the electronic schematic for this project:
    - Ensures reliable communication between the LEDs and the ESP32.
 
 - **ESP32**:
-   - Powered by 5V, but communicates via 3.3V with the logic level converter. A GPIO pin from the ESP32 is connected to the **Data In** of the LED strip via the logic level converter.
+   - The ESP32 controls the LED strip and processes the sound sensor input. It communicates with the WS2812B LED strip via one of its GPIO pins, which is connected to the Data In pin of the LED strip through the logic level converter. The sound sensor is also connected to one of the GPIO pins. The ESP32 is powered by the same 5V supply.
 
 - **Resistor**:
    - A **330Ω resistor** is placed between the **Data In** pin of the LED strip and the data line from the ESP32 (after the logic level conversion) to prevent current spikes.
@@ -42,6 +43,9 @@ Here is the **test version** of the electronic schematic for this project:
 
 - **Schottky Diode**:
    - The diode protects the circuit from accidental reverse polarity connections.
+ 
+- **KY-038 / KY-037 Sound Sensor**:
+   - The KY-038 (or KY-037) sound sensor is used to detect ambient sound levels, which will control the LED animations. The sensor has an analog output (A0) and a digital output (D0). For our purpose, we will use the analog output to detect continuous sound levels.
 
 ---
 
