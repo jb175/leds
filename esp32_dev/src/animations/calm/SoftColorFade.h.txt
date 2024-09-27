@@ -1,0 +1,20 @@
+#ifndef SOFT_COLOR_FADE_H
+#define SOFT_COLOR_FADE_H
+
+#include "calmAnimation.h"
+
+class SoftColorFade : public CalmAnimation {
+public:
+    // Constructor with customizable fade speed and starting color
+    SoftColorFade(CRGB startColor = CRGB::Red, unsigned int fadeSpeed = 15);
+    ~SoftColorFade() override = default;
+
+    // Generates the LED states for this animation
+    void generateLEDs(CRGB leds[NUM_LEDS], unsigned long timeElapsed) override;
+
+private:
+    CRGB startColor;     // Starting color for the fade
+    unsigned int fadeSpeed; // Speed of color transition (lower = faster)
+};
+
+#endif // SOFT_COLOR_FADE_H
