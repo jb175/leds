@@ -18,13 +18,19 @@ void setup() {
 void loop() {
     unsigned long timeElapsed = millis(); // Get the elapsed time
     unsigned long currentInterval = (timeElapsed / COLOR_INTERVAL) % 3; // Determine the current color interval
+    std::vector<CRGB> ledStates;
 
     if (currentInterval == 0) {
-        softGlowBlue.generateLEDs(leds, NUM_LEDS, timeElapsed); // Generate the LED states for blue
+        ledStates = softGlowBlue.generateLEDs(NUM_LEDS, timeElapsed); // Generate the LED states for blue
     } else if (currentInterval == 1) {
-        softGlowRed.generateLEDs(leds, NUM_LEDS, timeElapsed); // Generate the LED states for red
+        ledStates = softGlowRed.generateLEDs(NUM_LEDS, timeElapsed); // Generate the LED states for red
     } else {
-        softGlowGreen.generateLEDs(leds, NUM_LEDS, timeElapsed); // Generate the LED states for green
+        ledStates = softGlowGreen.generateLEDs(NUM_LEDS, timeElapsed); // Generate the LED states for green
+    }
+
+    // Copy the generated LED states to the actual LED array
+    for (int i = 0; i < NUM_LEDS; i++) {
+        leds[i] = ledStates[i];
     }
 
     FastLED.show(); // Display the LEDs

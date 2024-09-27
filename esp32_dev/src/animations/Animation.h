@@ -3,11 +3,12 @@
 
 #include <Arduino.h>
 #include <FastLED.h>
+#include <vector>
 
 class Animation {
 public:
     virtual ~Animation() = default;
-    virtual void generateLEDs(CRGB* leds, int numLeds, unsigned long timeElapsed) = 0; // Generate the LED states
+    virtual std::vector<CRGB> generateLEDs(int numLeds, unsigned long timeElapsed) = 0; // Generate the LED states
 };
 
 #endif // ANIMATION_H
