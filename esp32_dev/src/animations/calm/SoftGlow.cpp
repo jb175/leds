@@ -1,21 +1,19 @@
 #include "SoftGlow.h"
 
-SoftGlow::SoftGlow(CRGB color, unsigned long duration, float pulseShape, bool startAtFullBrightness) 
-    : color(color), duration(duration), pulseShape(pulseShape), startAtFullBrightness(startAtFullBrightness) {}
+SoftGlow::SoftGlow(CRGB color, unsigned long duration) 
+    : color(color), duration(duration) {}
 
 std::vector<CRGB> SoftGlow::generateLEDs(int numLeds, unsigned long timeElapsed) {
     const uint8_t lowerBrightness = 0;
     const uint8_t higherBrightness = 255;
     std::vector<CRGB> ledStates(numLeds);
 
-    // Calculate brightness to go from 0 to max light and back to 0
-    float cyclePosition = fmod(timeElapsed, duration) / (float)duration;
-    float adjustedCyclePosition = pow(cyclePosition, pulseShape);
-    uint8_t brightness = (sin8(adjustedCyclePosition * 255) * (higherBrightness - lowerBrightness) / 255) + lowerBrightness;
-
-    // Adjust brightness based on startAtFullBrightness
-    if (startAtFullBrightness) {
-        brightness = higherBrightness - brightness;
+    // Calculate the brightness based on the time elapsed
+    uint8_t brightness;
+    if (timeElapsed%duration < duration/2) {
+        brightness = lowerBrightness + timeElapsed%duration * (higherBrightness - lowerBrightness) / (duration/2);
+    } else {
+        brightness = higherBrightness - (timeElapsed%duration - duration/2) * (higherBrightness - lowerBrightness) / (duration/2);
     }
 
     // Apply the color and brightness to each LED

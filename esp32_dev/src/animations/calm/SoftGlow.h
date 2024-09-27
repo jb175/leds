@@ -1,19 +1,17 @@
 #ifndef SOFTGLOW_H
 #define SOFTGLOW_H
 
-#include "CalmAnimation.h"
+#include <FastLED.h>
+#include <vector>
 
-class SoftGlow : public CalmAnimation {
+class SoftGlow {
 public:
-    SoftGlow(CRGB color = CRGB::White, unsigned long duration = 5000, float pulseShape = 2.0, bool startAtFullBrightness = false);
-    ~SoftGlow() override = default;
-    std::vector<CRGB> generateLEDs(int numLeds, unsigned long timeElapsed) override;
+    SoftGlow(CRGB color, unsigned long duration);
+    std::vector<CRGB> generateLEDs(int numLeds, unsigned long timeElapsed);
 
 private:
     CRGB color;
     unsigned long duration;
-    float pulseShape;
-    bool startAtFullBrightness;
 };
 
 #endif // SOFTGLOW_H
