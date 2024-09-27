@@ -5,8 +5,10 @@
 
 class CalmAnimation : public Animation {
 public:
-    ~CalmAnimation() override = default;
-    std::vector<CRGB> generateLEDs(int numLeds, unsigned long timeElapsed) override = 0; // Generate the LED states
+    CalmAnimation(CRGB color, unsigned long duration) : Animation(color, duration) {
+        this->setColor(color);
+        this->setDuration(duration);
+    };
 };
 
-#endif // CALM_ANIMATION_H
+#endif
