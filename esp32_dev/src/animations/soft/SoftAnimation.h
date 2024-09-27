@@ -3,9 +3,9 @@
 
 #include <animations/Animation.h>
 
-class CalmAnimation : public Animation {
+class SoftAnimation : public Animation {
 public:
-    CalmAnimation(CRGB color, unsigned long duration) : Animation(color, duration) {
+    SoftAnimation(CRGB color, unsigned long duration) : Animation(color, duration) {
         this->setColor(color);
         this->setDuration(duration);
     };

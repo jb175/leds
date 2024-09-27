@@ -1,6 +1,6 @@
 #include "SlideTransition.h"
 
-SlideTransition::SlideTransition(CalmAnimation* from, CalmAnimation* to, unsigned long duration) : Transition(from, to, duration) {}
+SlideTransition::SlideTransition(SoftAnimation* from, SoftAnimation* to, unsigned long duration) : Transition(from, to, duration) {}
 
 std::vector<CRGB> SlideTransition::generateLEDs(int numLeds, unsigned long timeElapsed) {
     std::vector<CRGB> fromLedStates = this->getFrom()->generateLEDs(numLeds, timeElapsed);

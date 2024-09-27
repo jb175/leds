@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <FastLED.h>
-#include <animations/calm/SoftGlow.h>
+#include <animations/soft/SoftGlow.h>
 #include <transitions/SlideTransition.h>
 #include <transitions/NoTransition.h>
 
@@ -11,8 +11,8 @@
 #define TRANSITION_DURATION 5000 // Duration of the transition in milliseconds
 
 CRGB leds[NUM_LEDS];
-CalmAnimation* currentAnimation;
-CalmAnimation* previousAnimation;
+SoftAnimation* currentAnimation;
+SoftAnimation* previousAnimation;
 Transition* transition;
 unsigned long lastIntervalChange = 0;
 unsigned long transitionStartTime = 0;
