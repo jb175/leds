@@ -1,76 +1,114 @@
 #include <Arduino.h>
 #include <FastLED.h>
 #include <animations/calm/SoftGlow.h>
+#include <transitions/SlideTransition.h>
+#include <transitions/NoTransition.h>
 
 #define NUM_LEDS 60
 #define DATA_PIN 2
 #define COLOR_INTERVAL 10000 // Time interval for each color in milliseconds
 #define GLOW_INTERVAL 5000 // Time interval to transition from previous to new color in milliseconds
+#define TRANSITION_DURATION 5000 // Duration of the transition in milliseconds
 
 CRGB leds[NUM_LEDS];
-SoftGlow* currentSoftGlow;
-SoftGlow* previousSoftGlow;
+CalmAnimation* currentAnimation;
+CalmAnimation* previousAnimation;
+Transition* transition;
 unsigned long lastIntervalChange = 0;
+unsigned long transitionStartTime = 0;
 CRGB lastColor;
 CRGB currentColor;
 
-std::vector<CRGB> colors = {CRGB::Red, CRGB::Green, CRGB::Blue, CRGB::Yellow, CRGB::Purple, CRGB::Cyan, CRGB::Orange};
+const std::vector<CRGB> colors = {CRGB::Red, CRGB::Green, CRGB::Blue, CRGB::Yellow, CRGB::Purple, CRGB::Cyan, CRGB::Orange};
+
+void createNewTransition();
+void createNewAnimation();
+
 
 void setup() {
-    FastLED.addLeds<WS2812B, DATA_PIN, RGB>(leds, NUM_LEDS); // Set up the LED strip
-    randomSeed(analogRead(0)); // Initialize random seed
-    currentColor = colors[random(0, colors.size())];
-    currentSoftGlow = new SoftGlow(currentColor, GLOW_INTERVAL); // Initialize with a random color
-    previousSoftGlow = nullptr; // No previous glow initially
+    CFastLED::addLeds<WS2812B, DATA_PIN, RGB>(leds, NUM_LEDS);
+    randomSeed(analogRead(0));
+    createNewAnimation();
 }
 
 void loop() {
-    unsigned long timeElapsed = millis(); // Get the elapsed time
-    unsigned long intervalElapsed = timeElapsed % COLOR_INTERVAL; // Time elapsed within the current interval
+    unsigned long timeElapsed = millis();
 
-    // Check if it's time to change the color
-    if (timeElapsed - lastIntervalChange >= COLOR_INTERVAL) {
-        CRGB newColor;
-        do {
-            newColor = colors[random(0, colors.size())];
-        } while (newColor == currentColor || newColor == lastColor); // Ensure the new color is different from the current and last colors
+    //transition
+    if (transition != nullptr) {
+        unsigned long transitionElapsed = timeElapsed - transitionStartTime;
 
-        // Update the previous glow
-        if (previousSoftGlow != nullptr) {
-            delete previousSoftGlow; // Delete the old previous SoftGlow object
-        }
-        previousSoftGlow = currentSoftGlow; // Move current glow to previous
+        if (transitionElapsed >= transition->getDuration()) {
+            //close transition
+            delete transition;
+            transition = nullptr;
+            lastIntervalChange = timeElapsed;
+        } else {
+            std::vector<CRGB> ledStates = transition->generateLEDs(NUM_LEDS, transitionElapsed);
 
-        // Create a new SoftGlow with the new color
-        currentSoftGlow = new SoftGlow(newColor, GLOW_INTERVAL);
-        lastColor = currentColor; // Update the last color
-        currentColor = newColor; // Update the current color
-        lastIntervalChange = timeElapsed; // Update the last interval change time
-    }
-
-    std::vector<CRGB> currentLedStates = currentSoftGlow->generateLEDs(NUM_LEDS, intervalElapsed); // Generate the current LED states
-    std::vector<CRGB> previousLedStates(NUM_LEDS);
-
-    if (previousSoftGlow != nullptr) {
-        unsigned long transitionElapsed = timeElapsed - lastIntervalChange; // Time elapsed since the last interval change
-        unsigned int ledsToReplace = (transitionElapsed * NUM_LEDS) / GLOW_INTERVAL; // Number of LEDs to replace based on the transition progress
-
-        previousLedStates = previousSoftGlow->generateLEDs(NUM_LEDS, intervalElapsed); // Generate the previous LED states
-
-        // Blend the previous and current LED states
-        for (int i = 0; i < NUM_LEDS; i++) {
-            if (i < ledsToReplace) {
-                leds[i] = currentLedStates[i];
-            } else {
-                leds[i] = previousLedStates[i];
+            for (int i = 0; i < NUM_LEDS; i++) {
+                leds[i] = ledStates[i];
             }
-        }
-    } else {
-        // If there's no previous glow, just use the current LED states
-        for (int i = 0; i < NUM_LEDS; i++) {
-            leds[i] = currentLedStates[i];
+
+            FastLED.show();
+            return;
         }
     }
 
-    FastLED.show(); // Display the LEDs
+    //animation
+    unsigned long intervalElapsed = timeElapsed - lastIntervalChange;
+    if (intervalElapsed >= COLOR_INTERVAL) {
+        //finish animation
+        createNewAnimation();
+        createNewTransition();
+        lastIntervalChange = timeElapsed;
+    } else if (currentAnimation != nullptr) {
+        std::vector<CRGB> ledStates = currentAnimation->generateLEDs(NUM_LEDS, intervalElapsed);
+
+        for (int i = 0; i < NUM_LEDS; i++) {
+            leds[i] = ledStates[i];
+        }
+
+        FastLED.show();
+    }
 }
+
+void createNewTransition() {
+    // Create a new transition
+    if (transition != nullptr) {
+        delete transition; // Delete the old transition object
+    }
+    switch (random(0, 2))
+    {
+    case 0:
+        transition = new NoTransition();
+        break;
+    case 1:
+        transition = new SlideTransition(previousAnimation, currentAnimation, TRANSITION_DURATION);
+        break;
+    default:
+        break;
+    }
+    transitionStartTime = millis(); // Set the start time for the transition
+}
+
+void createNewAnimation() {
+    // Update the previous animation
+    if (previousAnimation != nullptr) {
+        delete previousAnimation;
+    }
+    previousAnimation = currentAnimation;
+
+    // Generate a new color
+    CRGB newColor;
+    do {
+        newColor = colors[random(0, colors.size())];
+    } while (newColor == currentColor);
+
+    // Create a new SoftGlow with the new color
+    currentAnimation = new SoftGlow(newColor, GLOW_INTERVAL);
+
+    //update the current color
+    currentColor = newColor; // Update the current color
+}
+
