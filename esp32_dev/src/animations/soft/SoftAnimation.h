@@ -5,10 +5,7 @@
 
 class SoftAnimation : public Animation {
 public:
-    SoftAnimation(CRGB color, unsigned long duration) : Animation(color, duration) {
-        this->setColor(color);
-        this->setDuration(duration);
-    };
+    SoftAnimation(CRGB color, unsigned long duration, unsigned int times) : Animation(color, duration, times) {};
 };
 
 #endif

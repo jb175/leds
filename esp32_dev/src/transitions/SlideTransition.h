@@ -5,8 +5,11 @@
 
 class SlideTransition : public Transition {
 public:
-    SlideTransition(SoftAnimation *from, SoftAnimation *to, unsigned long duration);
+    SlideTransition(SoftAnimation *from, SoftAnimation *to, unsigned long duration, long direction) 
+        : Transition(from, to, duration), direction(direction) {}
     std::vector<CRGB> generateLEDs(int numLeds, unsigned long timeElapsed);
+private:
+    long direction;
 };
 
-#endif // TRANSITION_H
+#endif
