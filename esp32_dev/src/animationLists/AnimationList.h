@@ -14,7 +14,8 @@ enum class AnimationType {
     Breathing,
     RainbowPulse,
     BlinkingStars,
-    Waves
+    Waves,
+    BasicColor
 };
 
 enum class TransitionType {
