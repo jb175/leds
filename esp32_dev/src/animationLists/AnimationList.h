@@ -10,11 +10,11 @@
 #include <transitions/Transition.h>
 
 enum class AnimationType {
-    SoftGlow,
-    SoftBreathing,
-    SoftRainbowPulse,
-    SoftBlinkingStars,
-    SoftWaves
+    Glow,
+    Breathing,
+    RainbowPulse,
+    BlinkingStars,
+    Waves
 };
 
 enum class TransitionType {

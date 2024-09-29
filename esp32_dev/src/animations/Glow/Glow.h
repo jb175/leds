@@ -3,11 +3,11 @@
 
 #include <FastLED.h>
 #include <vector>
-#include <animations/soft/SoftAnimation.h>
+#include <animations/Animation.h>
 
-class SoftGlow : public SoftAnimation {
+class Glow : public Animation {
 public:
-    SoftGlow(CRGB color, unsigned long duration, unsigned int times) : SoftAnimation(color, duration, times), halfDuration(duration/2) {};
+    Glow(CRGB color, unsigned long duration, unsigned int times) : Animation(color, duration, times), halfDuration(duration/2) {};
     std::vector<CRGB> generateLEDs(int numLeds, unsigned long timeElapsed);
 private:
     const uint8_t lowerBrightness = 0;

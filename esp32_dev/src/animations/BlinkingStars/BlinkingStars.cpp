@@ -1,6 +1,6 @@
-#include "SoftBlinkingStars.h"
+#include "BlinkingStars.h"
 
-std::vector<CRGB> SoftBlinkingStars::generateLEDs(int numLeds, unsigned long timeElapsed) {
+std::vector<CRGB> BlinkingStars::generateLEDs(int numLeds, unsigned long timeElapsed) {
     std::vector<CRGB> ledStates(numLeds);
 
     // Randomly determine which LEDs blink softly
@@ -16,7 +16,7 @@ std::vector<CRGB> SoftBlinkingStars::generateLEDs(int numLeds, unsigned long tim
     return ledStates;
 }
 
-CRGB SoftBlinkingStars::dimStarColor(CRGB color, uint8_t brightness) {
+CRGB BlinkingStars::dimStarColor(CRGB color, uint8_t brightness) {
     CRGB newColor = color;
     newColor.nscale8(brightness); // Adjust the brightness of the star
     return newColor;

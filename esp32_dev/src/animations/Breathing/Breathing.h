@@ -3,12 +3,12 @@
 
 #include <FastLED.h>
 #include <vector>
-#include "SoftAnimation.h"
+#include <animations/Animation.h>
 
-class SoftBreathing : public SoftAnimation {
+class Breathing : public Animation {
 public:
-    SoftBreathing(CRGB color, unsigned long duration, unsigned int times) 
-        : SoftAnimation(color, duration, times), halfDuration(duration / 2) {}
+    Breathing(CRGB color, unsigned long duration, unsigned int times) 
+        : Animation(color, duration, times), halfDuration(duration / 2) {}
 
     std::vector<CRGB> generateLEDs(int numLeds, unsigned long timeElapsed);
 

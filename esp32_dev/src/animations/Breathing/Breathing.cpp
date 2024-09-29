@@ -1,6 +1,6 @@
-#include "SoftBreathing.h"
+#include "Breathing.h"
 
-std::vector<CRGB> SoftBreathing::generateLEDs(int numLeds, unsigned long timeElapsed) {
+std::vector<CRGB> Breathing::generateLEDs(int numLeds, unsigned long timeElapsed) {
     std::vector<CRGB> ledStates(numLeds);
 
     long elapsedTimeCycle = timeElapsed % this->getDuration();

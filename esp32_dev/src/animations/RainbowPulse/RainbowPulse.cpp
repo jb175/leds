@@ -1,6 +1,6 @@
-#include "SoftRainbowPulse.h"
+#include "RainbowPulse.h"
 
-std::vector<CRGB> SoftRainbowPulse::generateLEDs(int numLeds, unsigned long timeElapsed) {
+std::vector<CRGB> RainbowPulse::generateLEDs(int numLeds, unsigned long timeElapsed) {
     std::vector<CRGB> ledStates(numLeds);
 
     long elapsedTimeCycle = timeElapsed % this->getDuration();

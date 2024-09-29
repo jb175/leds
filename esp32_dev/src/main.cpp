@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <FastLED.h>
 #include <animationLists/AnimationList.h>
-#include <animationLists/SoftAnimationList.h>
+#include <animationLists/Soft/SoftAnimationList.h>
 
 #define NUM_LEDS 60
 #define DATA_PIN 2

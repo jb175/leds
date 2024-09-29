@@ -1,6 +1,6 @@
-#include "SoftGlow.h"
+#include "Glow.h"
 
-std::vector<CRGB> SoftGlow::generateLEDs(int numLeds, unsigned long timeElapsed) {
+std::vector<CRGB> Glow::generateLEDs(int numLeds, unsigned long timeElapsed) {
     std::vector<CRGB> ledStates(numLeds);
 
     long elspsedTimeCycle = timeElapsed % this->getDuration();

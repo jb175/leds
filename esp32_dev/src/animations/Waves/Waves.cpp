@@ -1,7 +1,7 @@
-#include "SoftWaves.h"
+#include "Waves.h"
 #include <cmath>
 
-std::vector<CRGB> SoftWaves::generateLEDs(int numLeds, unsigned long timeElapsed) {
+std::vector<CRGB> Waves::generateLEDs(int numLeds, unsigned long timeElapsed) {
     std::vector<CRGB> ledStates(numLeds);
 
     long elapsedTimeCycle = timeElapsed % this->getDuration();

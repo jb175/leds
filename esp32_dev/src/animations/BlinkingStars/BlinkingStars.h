@@ -2,12 +2,12 @@
 #define SOFTBLINKINGSTARS_H
 
 #include <FastLED.h>
-#include "SoftAnimation.h"
+#include <animations/Animation.h>
 
-class SoftBlinkingStars : public SoftAnimation {
+class BlinkingStars : public Animation {
 public:
-    SoftBlinkingStars(CRGB color, unsigned long duration, unsigned int times) 
-        : SoftAnimation(color, duration, times) {}
+    BlinkingStars(CRGB color, unsigned long duration, unsigned int times) 
+        : Animation(color, duration, times) {}
 
     std::vector<CRGB> generateLEDs(int numLeds, unsigned long timeElapsed);
 
