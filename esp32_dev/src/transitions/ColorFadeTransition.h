@@ -5,7 +5,7 @@
 
 class ColorFadeTransition : public Transition {
 public:
-    ColorFadeTransition(SoftAnimation *from, SoftAnimation *to, unsigned long duration);
+    ColorFadeTransition(Animation *from, Animation *to, unsigned long duration);
     std::vector<CRGB> generateLEDs(int numLeds, unsigned long timeElapsed);
 };
 

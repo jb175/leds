@@ -5,7 +5,7 @@
 
 class SlideTransition : public Transition {
 public:
-    SlideTransition(SoftAnimation *from, SoftAnimation *to, unsigned long duration, long direction) 
+    SlideTransition(Animation *from, Animation *to, unsigned long duration, long direction) 
         : Transition(from, to, duration), direction(direction) {}
     std::vector<CRGB> generateLEDs(int numLeds, unsigned long timeElapsed);
 private:

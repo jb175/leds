@@ -3,11 +3,11 @@
 
 #include <FastLED.h>
 #include <vector>
-#include <animations/soft/SoftAnimation.h>
+#include <animations/Animation.h>
 
 class Transition {
 public:
-    Transition(SoftAnimation* from, SoftAnimation* to, unsigned long duration) {
+    Transition(Animation* from, Animation* to, unsigned long duration) {
         this->setFrom(from);
         this->setTo(to);
         this->setDuration(duration);
@@ -15,17 +15,17 @@ public:
     }
     virtual ~Transition() = default;
     virtual std::vector<CRGB> generateLEDs(int numLeds, unsigned long timeElapsed) = 0;
-    SoftAnimation* getFrom() const { return from_; }
-    SoftAnimation* getTo() const { return to_; }
+    Animation* getFrom() const { return from_; }
+    Animation* getTo() const { return to_; }
     unsigned long getDuration() const { return duration_; }
     unsigned long getStartTime() const { return startTime_;}
-    void setFrom(SoftAnimation* from) { this->from_ = from; }
-    void setTo(SoftAnimation* to) { this->to_ = to; }
+    void setFrom(Animation* from) { this->from_ = from; }
+    void setTo(Animation* to) { this->to_ = to; }
     void setDuration(unsigned long duration) { this->duration_ = duration; }
     void setStartTime(unsigned long startTime) { this->startTime_ = startTime; }
 private:
-    SoftAnimation* from_;
-    SoftAnimation* to_;
+    Animation* from_;
+    Animation* to_;
     unsigned long duration_;
     unsigned long startTime_;
 };

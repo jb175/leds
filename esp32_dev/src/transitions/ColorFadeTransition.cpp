@@ -1,6 +1,6 @@
 #include "ColorFadeTransition.h"
 
-ColorFadeTransition::ColorFadeTransition(SoftAnimation* from, SoftAnimation* to, unsigned long duration) : Transition(from, to, duration) {}
+ColorFadeTransition::ColorFadeTransition(Animation* from, Animation* to, unsigned long duration) : Transition(from, to, duration) {}
 
 std::vector<CRGB> ColorFadeTransition::generateLEDs(int numLeds, unsigned long timeElapsed) {
     std::vector<CRGB> fromLedStates = this->getFrom()->generateLEDs(numLeds, timeElapsed);
