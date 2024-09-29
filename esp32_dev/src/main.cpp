@@ -1,6 +1,12 @@
 #include <Arduino.h>
 #include <FastLED.h>
+
 #include <animations/soft/SoftGlow.h>
+#include <animations/soft/SoftBreathing.h>
+#include <animations/soft/SoftRainbowPulse.h>
+#include <animations/soft/SoftBlinkingStars.h>
+#include <animations/soft/SoftWaves.h>
+
 #include <transitions/SlideTransition.h>
 #include <transitions/ColorFadeTransition.h>
 #include <transitions/NoTransition.h>
@@ -23,8 +29,8 @@ const std::vector<CRGB> colors = {CRGB::Red, CRGB::Green, CRGB::Blue, CRGB::Yell
 
 void createNewTransition();
 void createNewAnimation();
-void generateNewColor(const std::map<CRGB, std::vector<CRGB>>& colorMapping);
-void generateNewColor(const std::vector<CRGB>& colorMapping);
+CRGB generateNewColor(const std::map<CRGB, std::vector<CRGB>>& colorMapping);
+CRGB generateNewColor(const std::vector<CRGB>& colorMapping);
 
 void setup() {
     CFastLED::addLeds<WS2812B, DATA_PIN, RGB>(leds, NUM_LEDS);
@@ -59,7 +65,7 @@ void loop() {
 
     //animation
     unsigned long intervalElapsed = timeElapsed - lastIntervalChange;
-    if (currentAnimation->getIsFinished()) {
+    if (currentAnimation->getIsFinished(intervalElapsed)) {
         //finish animation
         createNewTransition();
         lastIntervalChange = timeElapsed;
@@ -104,36 +110,50 @@ void createNewAnimation() {
         delete previousAnimation;
     }
     previousAnimation = currentAnimation;
-
-    switch (random(2))
+    CRGB FinalColor;
+    switch (random(0, 5))
     {
     case 0:
+        currentColor = generateNewColor(basicColorMapping);
+        currentAnimation = new SoftGlow(currentColor, TRANSITION_DURATION, random(2, 4));
+        break;
     case 1:
-        generateNewColor(basicColorMapping);
-        currentAnimation = new SoftGlow(currentColor, TRANSITION_DURATION, random(3,5));
+        currentColor = generateNewColor(basicColorMapping);
+        currentAnimation = new SoftBreathing(currentColor, TRANSITION_DURATION, random(2, 4));
+        break;
+    case 2:
+        currentAnimation = new SoftRainbowPulse(TRANSITION_DURATION, random(1, 3));
+        break;
+    case 3:
+        currentColor = generateNewColor(basicColorMapping);
+        currentAnimation = new SoftBlinkingStars(currentColor, TRANSITION_DURATION, 1);
+        break;
+    case 4:
+        currentColor = generateNewColor(basicColorMapping);
+        currentAnimation = new SoftWaves(currentColor, TRANSITION_DURATION, random(2, 4), random(0, 2));
         break;
     default:
         break;
     }
 }
 
-void generateNewColor(const std::map<CRGB, std::vector<CRGB>>& colorMapping) {
+CRGB generateNewColor(const std::map<CRGB, std::vector<CRGB>>& colorMapping) {
     if (colorMapping.find(currentColor) != colorMapping.end()) {
-        generateNewColor(colorMapping.at(currentColor));
+        return generateNewColor(colorMapping.at(currentColor));
     } else {
         auto it = colorMapping.begin();
         std::advance(it, random(0, colorMapping.size()));
-        currentColor = it->first;
+        return it->first;
     }
 }
 
-void generateNewColor(const std::vector<CRGB>& colorList) {
+CRGB generateNewColor(const std::vector<CRGB>& colorList) {
     if (colorList.size() <= 1) {
-        return;
+        return colorList[0];
     }
     CRGB newColor;
     do {
         newColor = colorList[random(0, colorList.size())];
     } while (newColor == currentColor);
-    currentColor = newColor;
+    return newColor;
 }

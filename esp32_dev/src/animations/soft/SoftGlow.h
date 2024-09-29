@@ -7,12 +7,12 @@
 
 class SoftGlow : public SoftAnimation {
 public:
-    SoftGlow(CRGB color, unsigned long duration, unsigned int times) : SoftAnimation(color, duration, times) {};
+    SoftGlow(CRGB color, unsigned long duration, unsigned int times) : SoftAnimation(color, duration, times), halfDuration(duration/2) {};
     std::vector<CRGB> generateLEDs(int numLeds, unsigned long timeElapsed);
 private:
     const uint8_t lowerBrightness = 0;
     const uint8_t higherBrightness = 255;
-    long halfDuration = this->getDuration()/2;
+    long halfDuration;
 };
 
 #endif
