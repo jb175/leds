@@ -6,7 +6,7 @@
 #include <animationLists/TransitionTest/TransitionTestList.h>
 
 #define NUM_LEDS 60
-#define DATA_PIN 2
+#define DATA_PIN 13
 
 CRGB leds[NUM_LEDS];
 AnimationList* animationList = new TransitionTestList();

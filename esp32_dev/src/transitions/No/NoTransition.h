@@ -5,7 +5,7 @@
 
 class NoTransition : public Transition {
 public:
-    NoTransition();
+    NoTransition() : Transition(nullptr, nullptr, 0) {};
     std::vector<CRGB> generateLEDs(int numLeds, unsigned long timeElapsed);
 };
 

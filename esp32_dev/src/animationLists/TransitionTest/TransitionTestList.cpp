@@ -3,12 +3,12 @@
 
 void TransitionTestList::createNewTransition() {
     createNewAnimation();
-    setTransition(new NoTransition());
+    setTransition(new SlideTransition(getPreviousAnimation(), getCurrentAnimation(), animationBaseTime));
     setTransitionStartTime(millis());
 }
 
 void TransitionTestList::createNewAnimation() {
     setPreviousAnimation(getCurrentAnimation());
     setCurrentColor(generateNewColor(basicColorMapping));
-    setCurrentAnimation(new BasicColor(getCurrentColor(), animationBaseTime, 1));
+    setCurrentAnimation(new BasicColor(getCurrentColor(), 0, 1));
 }
