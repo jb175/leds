@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ESP32 LED Control</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+
+        button {
+            font-size: 20px;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        #status {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>ESP32 LED Control</h1>
+    <button id="connect">Connect to ESP32</button>
+    <br><br>
+    <button id="onButton">Turn LED ON</button>
+    <button id="offButton">Turn LED OFF</button>
+    <button id="colorButton">Change LED Color</button> <!-- New button -->
+
+    <div id="status">Status: Not connected</div>
+
+    <script>
+        let ledCharacteristic;
+        const serviceUuid = '4fafc201-1fb5-459e-8fcc-c5c9c331914b';
+        const characteristicUuid = 'beb5483e-36e1-4688-b7f5-ea07361b26a8';
+
+        document.getElementById('connect').addEventListener('click', async () => {
+            try {
+                const device = await navigator.bluetooth.requestDevice({
+                    filters: [{ services: [serviceUuid] }]
+                });
+                
+                const server = await device.gatt.connect();
+                const service = await server.getPrimaryService(serviceUuid);
+                ledCharacteristic = await service.getCharacteristic(characteristicUuid);
+
+                document.getElementById('status').textContent = 'Status: Connected';
+            } catch (error) {
+                console.log('Error: ', error);
+                document.getElementById('status').textContent = 'Status: Failed to connect';
+            }
+        });
+
+        document.getElementById('onButton').addEventListener('click', async () => {
+            if (ledCharacteristic) {
+                const encoder = new TextEncoder();
+                await ledCharacteristic.writeValue(encoder.encode('1'));  // Turn LED on
+                document.getElementById('status').textContent = 'LED is ON';
+            }
+        });
+
+        document.getElementById('offButton').addEventListener('click', async () => {
+            if (ledCharacteristic) {
+                const encoder = new TextEncoder();
+                await ledCharacteristic.writeValue(encoder.encode('0'));  // Turn LED off
+                document.getElementById('status').textContent = 'LED is OFF';
+            }
+        });
+
+        document.getElementById('colorButton').addEventListener('click', async () => { // New event listener
+            if (ledCharacteristic) {
+                const encoder = new TextEncoder();
+                await ledCharacteristic.writeValue(encoder.encode('color'));  // Change LED color
+                document.getElementById('status').textContent = 'LED color changed';
+            }
+        });
+    </script>
+
+</body>
+</html>

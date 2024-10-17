@@ -1,83 +1,88 @@
-#include <WiFi.h>
-#include <WebServer.h>
+#include <Arduino.h>
+#include <BLEDevice.h>
+#include <BLEUtils.h>
+#include <BLEServer.h>
 
-const char* ssid = "Bourgogne28";
-const char* password = "trentalaud";
+// Define UUIDs for the service and characteristic
+#define SERVICE_UUID        "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
+#define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
 
-WebServer server(80);  // Web server on port 80
+BLECharacteristic *pCharacteristic;
+bool deviceConnected = false;
+const int ledPin = 13;  // GPIO pin where the LED is connected
 
-const int ledPin = 2;   // GPIO where the LED is connected
-bool ledState = false;  // LED state (true = ON, false = OFF)
+// Callback to handle changes in connection state
+class MyServerCallbacks: public BLEServerCallbacks {
+    void onConnect(BLEServer* pServer) {
+      deviceConnected = true;
+      Serial.println("Client connected");
+    }
 
-void handleRoot() {
-    String html = "<html><head>";
-    html += "<meta name='viewport' content='width=device-width, initial-scale=1.0'>"; // Responsive design
-    html += "<style>";
-    html += "body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f4; margin: 0; padding: 20px; }";
-    html += "button { font-size: 20px; padding: 15px 30px; color: #fff; background-color: #007BFF; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; }";
-    html += "button:hover { background-color: #0056b3; }";
-    html += "</style>";
-    html += "<script>";
-    html += "function toggleLED() {";
-    html += "  var xhttp = new XMLHttpRequest();";
-    html += "  xhttp.onreadystatechange = function() {";
-    html += "    if (this.readyState == 4 && this.status == 200) {";
-    html += "      document.getElementById('ledButton').innerHTML = this.responseText;";
-    html += "    }";
-    html += "  };";
-    html += "  xhttp.open('GET', '/toggle', true);";
-    html += "  xhttp.send();";
-    html += "}";
-    html += "function updateButton() {";
-    html += "  var xhttp = new XMLHttpRequest();";
-    html += "  xhttp.onreadystatechange = function() {";
-    html += "    if (this.readyState == 4 && this.status == 200) {";
-    html += "      document.getElementById('ledButton').innerHTML = this.responseText;";
-    html += "    }";
-    html += "  };";
-    html += "  xhttp.open('GET', '/status', true);";
-    html += "  xhttp.send();";
-    html += "}";
-    html += "setInterval(updateButton, 1000);";  // Check every second
-    html += "</script></head><body>";
-    html += "<h1>ESP32 LED Control</h1>";
-    html += "<button id='ledButton' onclick='toggleLED()'>Loading...</button>";  // Button starts loading
-    html += "</body></html>";
-    server.send(200, "text/html", html);
-}
+    void onDisconnect(BLEServer* pServer) {
+      deviceConnected = false;
+      Serial.println("Client disconnected");
+    }
+};
 
-void handleToggle() {
-    ledState = !ledState;  // Toggle LED state
-    digitalWrite(ledPin, ledState ? HIGH : LOW);
-    server.send(200, "text/plain", ledState ? "Turn OFF" : "Turn ON");  // Send the updated button label
-}
-
-void handleStatus() {
-    server.send(200, "text/plain", ledState ? "Turn OFF" : "Turn ON");  // Send the current button label based on LED state
-}
+// Callback to handle writes to the characteristic (LED on/off control)
+class MyCallbacks: public BLECharacteristicCallbacks {
+    void onWrite(BLECharacteristic *pCharacteristic) {
+      std::string rxValue = pCharacteristic->getValue();
+      
+      if (rxValue.length() > 0) {
+        Serial.print("Received Value: ");
+        Serial.println(rxValue.c_str());
+        
+        // Convert the received value into an integer (0 = off, 1 = on)
+        if (rxValue == "1") {
+          digitalWrite(ledPin, HIGH);  // Turn LED on
+        } else if (rxValue == "0") {
+          digitalWrite(ledPin, LOW);   // Turn LED off
+        }
+      }
+    }
+};
 
 void setup() {
-    Serial.begin(115200);
-    pinMode(ledPin, OUTPUT);
-    digitalWrite(ledPin, LOW);  // Ensure the LED is off initially
+  // Initialize serial communication
+  Serial.begin(115200);
+  
+  // Set the LED pin as output
+  pinMode(ledPin, OUTPUT);
+  
+  // Create the BLE Device
+  BLEDevice::init("ESP32 LED Controller");
 
-    WiFi.begin(ssid, password);
-    while (WiFi.status() != WL_CONNECTED) {
-        delay(1000);
-        Serial.println("Connecting to WiFi...");
-    }
-    Serial.println("Connected to WiFi");
+  // Create the BLE Server
+  BLEServer *pServer = BLEDevice::createServer();
+  pServer->setCallbacks(new MyServerCallbacks());
 
-    // Define web routes
-    server.on("/", handleRoot);
-    server.on("/toggle", handleToggle);
-    server.on("/status", handleStatus);
+  // Create the BLE Service
+  BLEService *pService = pServer->createService(SERVICE_UUID);
 
-    server.begin();
-    Serial.println("Web server started");
-    Serial.println(WiFi.localIP());  // Print the IP address
+  // Create a BLE Characteristic
+  pCharacteristic = pService->createCharacteristic(
+                      CHARACTERISTIC_UUID,
+                      BLECharacteristic::PROPERTY_READ |
+                      BLECharacteristic::PROPERTY_WRITE
+                    );
+
+  pCharacteristic->setCallbacks(new MyCallbacks());
+
+  // Start the service
+  pService->start();
+
+  // Start advertising
+  BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
+  pAdvertising->addServiceUUID(SERVICE_UUID);
+  pAdvertising->setScanResponse(true);
+  pAdvertising->setMinPreferred(0x06);  // Help with power management
+  pAdvertising->setMinPreferred(0x12);
+  BLEDevice::startAdvertising();
+
+  Serial.println("Waiting for a client to connect...");
 }
 
 void loop() {
-    server.handleClient();
+  // Nothing required in the loop for BLE functionality
 }
