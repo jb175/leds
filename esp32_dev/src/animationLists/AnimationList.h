@@ -211,6 +211,23 @@ public:
     std::vector<std::pair<TransitionType, int>> getTransitionProbabilities() const {
         return transitionProbabilities_;
     }
+    
+    String getCurrentAnimationName() const {
+        if (getCurrentAnimation() == nullptr) {
+            return "None";
+        }
+        return String(typeid(*getCurrentAnimation()).name());
+    }
+    String getCurrentAnimationParams() const {
+        if (getCurrentAnimation() == nullptr) {
+            return "None";
+        }
+        String params = "Color: " + String(getCurrentAnimation()->getColor().r) + ", " +
+                        String(getCurrentAnimation()->getColor().g) + ", " +
+                        String(getCurrentAnimation()->getColor().b) + "\n";
+        params += "Duration: " + String(getCurrentAnimation()->getDuration()) + "\n";
+        return params;
+    }
 
 private:
     Animation* currentAnimation_ = nullptr;

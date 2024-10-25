@@ -32,6 +32,8 @@
     <button id="colorButton">Change LED Color</button> <!-- New button -->
 
     <div id="status">Status: Not connected</div>
+    <div id="animation">Current Animation: N/A</div>
+    <div id="parameters">Parameters: N/A</div>
 
     <script>
         let ledCharacteristic;
@@ -49,6 +51,16 @@
                 ledCharacteristic = await service.getCharacteristic(characteristicUuid);
 
                 document.getElementById('status').textContent = 'Status: Connected';
+
+                // Subscribe to notifications
+                await ledCharacteristic.startNotifications();
+                ledCharacteristic.addEventListener('characteristicvaluechanged', (event) => {
+                    const value = new TextDecoder().decode(event.target.value);
+                    console.log("Received notification: ", value); // Debugging statement
+                    const [animation, parameters] = value.split('\n');
+                    document.getElementById('animation').textContent = animation;
+                    document.getElementById('parameters').textContent = parameters;
+                });
             } catch (error) {
                 console.log('Error: ', error);
                 document.getElementById('status').textContent = 'Status: Failed to connect';
