@@ -9,7 +9,7 @@
 #define DATA_PIN 13
 
 CRGB leds[NUM_LEDS];
-AnimationList* animationList = new TransitionTestList();
+AnimationList* animationList = new SoftAnimationList();
 
 void setup() {
     CFastLED::addLeds<WS2812B, DATA_PIN, RGB>(leds, NUM_LEDS);
